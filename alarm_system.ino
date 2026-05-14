@@ -1,15 +1,25 @@
-# Temperature Alarm System
+void setup() {
+  pinMode(13, OUTPUT);
+  pinMode(8, OUTPUT);
+  Serial.begin(9600);
+}
 
-## How it Works
-- Temperature > 30°C → LED ON + Buzzer ON
-- Temperature < 30°C → LED OFF + Buzzer OFF
-
-## Components
-- Arduino Uno
-- TMP36 Sensor
-- LED + Resistor
-- Piezo Buzzer
-
-## Author
-Rohit Chakravarti
-ECE Graduate 2024
+void loop() {
+  int reading = analogRead(A0);
+  float voltage = reading * 5.0 / 1024.0;
+  float temperature = (voltage - 0.5) * 100;
+  
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" C");
+  
+  if (temperature > 30) {
+    digitalWrite(13, HIGH);
+    tone(8, 1000);
+  } else {
+    digitalWrite(13, LOW);
+    noTone(8);
+  }
+  
+  delay(900);
+}
